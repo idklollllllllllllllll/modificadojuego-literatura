@@ -1,0 +1,1892 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Aventura de las Figuras Literarias - 5.º Básico</title>
+        <style>
+            :root {
+                --bg: #f5f7fb;
+                --panel: #ffffff;
+                --ink: #24324a;
+                --muted: #667085;
+                --accent: #6c63ff;
+                --accent2: #ffb703;
+                --good: #198754;
+                --bad: #c2410c;
+                --line: #dfe3ea;
+                --shadow: 0 14px 40px rgba(40,48,80,.12)
+            }
+
+            * {
+                box-sizing: border-box
+            }
+
+            body {
+                margin: 0;
+                font-family: Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+                background: linear-gradient(135deg,#eef2ff,#fff7ed);
+                color: var(--ink)
+            }
+
+            button,input,select,textarea {
+                font: inherit
+            }
+
+            button {
+                cursor: pointer;
+                border: 0;
+                border-radius: 16px;
+                padding: 13px 18px;
+                font-weight: 800
+            }
+
+            .wrap {
+                max-width: 1180px;
+                margin: 0 auto;
+                padding: 24px
+            }
+
+            .card {
+                background: rgba(255,255,255,.96);
+                border: 1px solid var(--line);
+                border-radius: 24px;
+                box-shadow: var(--shadow);
+                padding: 24px
+            }
+
+            .hidden {
+                display: none!important
+            }
+
+            .topbar {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                gap: 16px;
+                margin-bottom: 18px
+            }
+
+            .brand h1 {
+                margin: 0;
+                font-size: clamp(24px,3vw,38px)
+            }
+
+            .small {
+                color: var(--muted);
+                font-size: 14px
+            }
+
+            .pill {
+                background: #fff;
+                border: 1px solid var(--line);
+                padding: 9px 13px;
+                border-radius: 999px;
+                font-weight: 800
+            }
+
+            .grid {
+                display: grid;
+                grid-template-columns: 1.1fr .9fr;
+                gap: 22px
+            }
+
+            @media(max-width: 800px) {
+                .grid {
+                    grid-template-columns:1fr
+                }
+
+                .topbar {
+                    align-items: flex-start;
+                    flex-direction: column
+                }
+            }
+
+            .primary {
+                background: var(--accent);
+                color: white
+            }
+
+            .secondary {
+                background: #eef2ff;
+                color: #3730a3
+            }
+
+            .gold {
+                background: #fff3cd;
+                color: #7a5b00
+            }
+
+            .danger {
+                background: #fee2e2;
+                color: #991b1b
+            }
+
+            .btnrow {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 10px
+            }
+
+            .hero {
+                display: flex;
+                align-items: center;
+                gap: 24px;
+                flex-wrap: wrap
+            }
+
+            .mascotWrap {
+                min-width: 240px;
+                text-align: center
+            }
+
+            .mascot {
+                width: 170px;
+                height: 180px;
+                margin: auto;
+                position: relative;
+                filter: drop-shadow(0 18px 18px rgba(0,0,0,.12))
+            }
+
+            .bodyBlob {
+                position: absolute;
+                inset: 24px 18px 14px;
+                border-radius: 48% 48% 42% 42%;
+                background: linear-gradient(145deg,#8b8cff,#5f61e6);
+                box-shadow: inset 16px 16px 22px rgba(255,255,255,.24),inset -12px -12px 20px rgba(0,0,0,.10)
+            }
+
+            .eye {
+                position: absolute;
+                top: 65px;
+                width: 18px;
+                height: 23px;
+                background: white;
+                border-radius: 50%;
+                z-index: 3
+            }
+
+            .eye:after {
+                content: "";
+                position: absolute;
+                left: 6px;
+                top: 8px;
+                width: 7px;
+                height: 9px;
+                background: #1f2937;
+                border-radius: 50%
+            }
+
+            .e1 {
+                left: 57px
+            }
+
+            .e2 {
+                right: 57px
+            }
+
+            .mouth {
+                position: absolute;
+                left: 70px;
+                top: 104px;
+                width: 30px;
+                height: 16px;
+                border-bottom: 5px solid #26334a;
+                border-radius: 50%;
+                z-index: 3
+            }
+
+            .acc {
+                position: absolute;
+                z-index: 6;
+                font-size: 38px;
+                display: none
+            }
+
+            .hat {
+                top: -2px;
+                left: 61px
+            }
+
+            .glasses {
+                top: 62px;
+                left: 46px
+            }
+
+            .shirt {
+                top: 116px;
+                left: 64px
+            }
+
+            .shoes {
+                bottom: -2px;
+                left: 49px
+            }
+
+            .bag {
+                top: 105px;
+                right: 10px
+            }
+
+            .show {
+                display: block
+            }
+
+            .progress {
+                height: 16px;
+                background: #e5e7eb;
+                border-radius: 999px;
+                overflow: hidden
+            }
+
+            .progress>div {
+                height: 100%;
+                background: linear-gradient(90deg,#6c63ff,#9d4edd);
+                width: 0
+            }
+
+            .statgrid {
+                display: grid;
+                grid-template-columns: repeat(4,1fr);
+                gap: 10px;
+                margin: 16px 0
+            }
+
+            .stat {
+                background: #f8fafc;
+                border: 1px solid var(--line);
+                border-radius: 16px;
+                padding: 12px;
+                text-align: center
+            }
+
+            .stat b {
+                display: block;
+                font-size: 22px
+            }
+
+            @media(max-width: 650px) {
+                .statgrid {
+                    grid-template-columns:repeat(2,1fr)
+                }
+            }
+
+            .option {
+                display: block;
+                width: 100%;
+                text-align: left;
+                background: white;
+                border: 2px solid var(--line);
+                margin: 10px 0;
+                padding: 16px;
+                border-radius: 16px
+            }
+
+            .option:hover {
+                border-color: #aaa5ff
+            }
+
+            .option.correct {
+                border-color: #22c55e;
+                background: #ecfdf5
+            }
+
+            .option.wrong {
+                border-color: #fb923c;
+                background: #fff7ed
+            }
+
+            .qnum {
+                font-size: 13px;
+                color: var(--muted);
+                font-weight: 800;
+                text-transform: uppercase;
+                letter-spacing: .08em
+            }
+
+            .question {
+                font-size: 24px;
+                line-height: 1.35;
+                margin: 8px 0 18px;
+                font-weight: 900
+            }
+
+            .notice {
+                padding: 14px;
+                border-radius: 14px;
+                margin: 12px 0;
+                background: #f8fafc;
+                border: 1px solid var(--line)
+            }
+
+            .tabs {
+                display: flex;
+                gap: 8px;
+                flex-wrap: wrap;
+                margin-bottom: 14px
+            }
+
+            .tab {
+                background: #eef2ff;
+                color: #3730a3
+            }
+
+            .tab.active {
+                background: var(--accent);
+                color: white
+            }
+
+            .shopgrid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit,minmax(160px,1fr));
+                gap: 12px
+            }
+
+            .shopitem {
+                border: 1px solid var(--line);
+                border-radius: 18px;
+                padding: 15px;
+                background: #fff;
+                text-align: center
+            }
+
+            .shopitem .emoji {
+                font-size: 42px
+            }
+
+            input,textarea,select {
+                width: 100%;
+                border: 1px solid var(--line);
+                border-radius: 12px;
+                padding: 11px;
+                background: white
+            }
+
+            .field {
+                margin: 12px 0
+            }
+
+            .field label {
+                display: block;
+                font-weight: 800;
+                margin-bottom: 6px
+            }
+
+            table {
+                width: 100%;
+                border-collapse: collapse;
+                font-size: 14px
+            }
+
+            th,td {
+                padding: 10px;
+                border-bottom: 1px solid var(--line);
+                text-align: left;
+                vertical-align: top
+            }
+
+            th {
+                background: #f8fafc;
+                position: sticky;
+                top: 0
+            }
+
+            .tablewrap {
+                max-height: 520px;
+                overflow: auto;
+                border: 1px solid var(--line);
+                border-radius: 16px
+            }
+
+            footer {
+                text-align: center;
+                color: var(--muted);
+                padding: 24px 0
+            }
+        </style>
+    </head>
+    <body>
+        <div class="wrap">
+            <div class="topbar">
+                <div class="brand">
+                    <h1>📚 Aventura de las Figuras Literarias</h1>
+                    <div class="small">5.º Básico · Profesora Diferencial: Daniela Rocha Villalobos</div>
+                </div>
+                <div class="btnrow">
+                    <span class="pill" id="coinPill">🪙 0</span>
+                    <button class="secondary" onclick="showTeacherLogin()">🔐 Modo Profesor</button>
+                </div>
+            </div>
+            <section id="login" class="card">
+                <div class="grid">
+                    <div>
+                        <h2>¡Bienvenido a tu aventura!</h2>
+                        <p>Escribe tu nombre de usuario. Tu avance quedará guardado en este computador.</p>
+                        <div class="field">
+                            <label>Nombre de usuario</label>
+                            <input id="username" maxlength="30" placeholder="Ej.: Martina R.">
+                        </div>
+                        <button class="primary" onclick="startUser()">COMENZAR MI AVENTURA</button>
+                    </div>
+                    <div class="mascotWrap">
+                        <div class="mascot">
+                            <div class="bodyBlob"></div>
+                            <div class="eye e1"></div>
+                            <div class="eye e2"></div>
+                            <div class="mouth"></div>
+                        </div>
+                        <b>Tu mascota te acompañará durante todo el juego.</b>
+                    </div>
+                </div>
+            </section>
+            <section id="home" class="hidden">
+                <div class="grid">
+                    <div class="card">
+                        <h2 id="hello">Hola</h2>
+                        <div class="progress">
+                            <div id="progressBar"></div>
+                        </div>
+                        <div class="statgrid">
+                            <div class="stat">
+                                <b id="doneStat">0</b>
+                                realizadas
+                            </div>
+                            <div class="stat">
+                                <b id="correctStat">0</b>
+                                correctas
+                            </div>
+                            <div class="stat">
+                                <b id="percentStat">0%</b>
+                                logro
+                            </div>
+                            <div class="stat">
+                                <b id="coinsStat">0</b>
+                                monedas
+                            </div>
+                        </div>
+                        <div class="btnrow">
+                            <button class="primary" onclick="openReview()">📖 Repaso inicial</button>
+                            <button class="primary" onclick="continueGame()">▶️ Continuar aventura</button>
+                            <button class="gold" onclick="openShop()">🛍️ Tienda</button>
+                            <button class="secondary" onclick="openCloset()">👕 Mi armario</button>
+                            <button class="secondary" onclick="openReport()">📊 Mi informe</button>
+                            <button class="danger" onclick="logout()">Salir</button>
+                        </div>
+                    </div>
+                    <div class="card mascotWrap">
+                        <div class="mascot" id="homeMascot">
+                            <div class="bodyBlob"></div>
+                            <div class="eye e1"></div>
+                            <div class="eye e2"></div>
+                            <div class="mouth"></div>
+                            <div class="acc hat">🎩</div>
+                            <div class="acc glasses">🤓</div>
+                            <div class="acc shirt">👕</div>
+                            <div class="acc shoes">👟</div>
+                            <div class="acc bag">🎒</div>
+                        </div>
+                        <h3>Mi mascota</h3>
+                        <div class="small">Desbloquea accesorios con tus Monedas Literarias.</div>
+                    </div>
+                </div>
+            </section>
+            <section id="review" class="card hidden">
+                <h2>📖 Repaso de las 6 figuras literarias</h2>
+                <div id="reviewCards"></div>
+                <div class="btnrow">
+                    <button class="primary" onclick="finishReview()">TERMINÉ EL REPASO</button>
+                    <button class="secondary" onclick="goHome()">Volver</button>
+                </div>
+            </section>
+            <section id="game" class="card hidden">
+                <div class="qnum" id="qMeta"></div>
+                <div class="question" id="qPrompt"></div>
+                <div id="options"></div>
+                <div id="feedback" class="notice hidden"></div>
+                <div class="btnrow">
+                    <button class="secondary" onclick="showHint()">💡 Ver pista</button>
+                    <button class="secondary" onclick="goHome()">Guardar y salir</button>
+                    <button id="nextBtn" class="primary hidden" onclick="nextQuestion()">Siguiente</button>
+                </div>
+            </section>
+            <section id="shop" class="card hidden">
+                <h2>🛍️ Tienda de la mascota</h2>
+                <p>
+                    Tus monedas: <b id="shopCoins">0</b>
+                    . Lo que compras queda desbloqueado para siempre.
+                </p>
+                <div class="shopgrid" id="shopGrid"></div>
+                <br>
+                <button class="secondary" onclick="goHome()">Volver</button>
+            </section>
+            <section id="closet" class="card hidden">
+                <h2>👕 Mi armario</h2>
+                <div class="grid">
+                    <div>
+                        <div class="shopgrid" id="closetGrid"></div>
+                    </div>
+                    <div class="mascotWrap">
+                        <div class="mascot" id="closetMascot">
+                            <div class="bodyBlob"></div>
+                            <div class="eye e1"></div>
+                            <div class="eye e2"></div>
+                            <div class="mouth"></div>
+                            <div class="acc hat">🎩</div>
+                            <div class="acc glasses">🤓</div>
+                            <div class="acc shirt">👕</div>
+                            <div class="acc shoes">👟</div>
+                            <div class="acc bag">🎒</div>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <button class="secondary" onclick="goHome()">Volver</button>
+            </section>
+            <section id="report" class="card hidden">
+                <h2>📊 Informe de aprendizaje</h2>
+                <div id="reportBody"></div>
+                <div class="btnrow">
+                    <button class="primary" onclick="printReport()">🖨️ Imprimir / Guardar como PDF</button>
+                    <button class="secondary" onclick="goHome()">Volver</button>
+                </div>
+            </section>
+            <section id="teacherLogin" class="card hidden">
+                <h2>🔐 Modo Profesor</h2>
+                <p>
+                    PIN inicial: <b>2026</b>
+                    . Puedes cambiarlo dentro del panel.
+                </p>
+                <div class="field">
+                    <label>PIN</label>
+                    <input id="teacherPin" type="password">
+                </div>
+                <div class="btnrow">
+                    <button class="primary" onclick="enterTeacher()">Entrar</button>
+                    <button class="secondary" onclick="showSection('login')">Cancelar</button>
+                </div>
+            </section>
+            <section id="teacher" class="card hidden">
+                <h2>👩‍🏫 Modo Profesor</h2>
+                <div class="tabs">
+                    <button class="tab active" onclick="teacherTab('bank',this)">Banco de preguntas</button>
+                    <button class="tab" onclick="teacherTab('students',this)">Estudiantes de este computador</button>
+                    <button class="tab" onclick="teacherTab('settings',this)">Configuración</button>
+                </div>
+                <div id="teacherBank">
+                    <p>Revisa las 100 preguntas. Puedes editar enunciado, alternativas, respuesta, pista y explicación. Los cambios quedan guardados localmente.</p>
+                    <div class="tablewrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Nº</th>
+                                    <th>Nivel</th>
+                                    <th>Figura</th>
+                                    <th>Pregunta</th>
+                                    <th>Respuesta</th>
+                                    <th>Acción</th>
+                                </tr>
+                            </thead>
+                            <tbody id="bankRows"></tbody>
+                        </table>
+                    </div>
+                </div>
+                <div id="teacherStudents" class="hidden"></div>
+                <div id="teacherSettings" class="hidden">
+                    <div class="field">
+                        <label>Nuevo PIN</label>
+                        <input id="newPin" maxlength="12">
+                    </div>
+                    <button class="primary" onclick="changePin()">Guardar PIN</button>
+                    <div class="notice">Esta versión guarda todo en el navegador de cada computador. No sincroniza todavía los 45 equipos entre sí.</div>
+                </div>
+                <br>
+                <button class="secondary" onclick="showSection('login')">Salir del Modo Profesor</button>
+            </section>
+            <section id="editQ" class="card hidden">
+                <h2>
+                    Editar pregunta <span id="editId"></span>
+                </h2>
+                <div class="field">
+                    <label>Enunciado</label>
+                    <textarea id="editPrompt"></textarea>
+                </div>
+                <div class="field">
+                    <label>Alternativa A</label>
+                    <input id="editA">
+                </div>
+                <div class="field">
+                    <label>Alternativa B</label>
+                    <input id="editB">
+                </div>
+                <div class="field">
+                    <label>Alternativa C</label>
+                    <input id="editC">
+                </div>
+                <div class="field">
+                    <label>Respuesta correcta (debe coincidir exactamente con una alternativa)</label>
+                    <input id="editAnswer">
+                </div>
+                <div class="field">
+                    <label>Pista</label>
+                    <input id="editHint">
+                </div>
+                <div class="field">
+                    <label>Explicación</label>
+                    <textarea id="editExplanation"></textarea>
+                </div>
+                <div class="btnrow">
+                    <button class="primary" onclick="saveEdit()">Guardar cambios</button>
+                    <button class="secondary" onclick="showSection('teacher');renderBank()">Cancelar</button>
+                </div>
+            </section>
+            <footer>Juego educativo para 5.º Básico · Sin audio · Diseñado para uso con mouse</footer>
+        </div>
+        <script>
+            const DEFAULT_QUESTIONS = [{
+                "id": 1,
+                "level": 1,
+                "figure": "Comparación",
+                "prompt": "¿Qué figura literaria aparece en “Tus ojos brillan como estrellas”?",
+                "options": ["Comparación", "Metáfora", "Onomatopeya"],
+                "answer": "Comparación",
+                "hint": "Busca una palabra que compare, como “como”.",
+                "explanation": "Compara los ojos con estrellas usando “como”."
+            }, {
+                "id": 2,
+                "level": 1,
+                "figure": "Metáfora",
+                "prompt": "¿Qué figura literaria aparece en “Tus ojos son dos estrellas”?",
+                "options": ["Metáfora", "Comparación", "Hipérbole"],
+                "answer": "Metáfora",
+                "hint": "Una cosa se presenta como si fuera otra, sin usar “como”.",
+                "explanation": "Los ojos se presentan directamente como estrellas."
+            }, {
+                "id": 3,
+                "level": 1,
+                "figure": "Personificación",
+                "prompt": "¿Qué figura literaria aparece en “El viento cantaba en la ventana”?",
+                "options": ["Personificación", "Onomatopeya", "Aliteración"],
+                "answer": "Personificación",
+                "hint": "Piensa si algo no humano realiza una acción humana.",
+                "explanation": "Al viento se le atribuye la acción humana de cantar."
+            }, {
+                "id": 4,
+                "level": 1,
+                "figure": "Hipérbole",
+                "prompt": "¿Qué figura literaria aparece en “Te esperé un millón de años”?",
+                "options": ["Hipérbole", "Metáfora", "Comparación"],
+                "answer": "Hipérbole",
+                "hint": "Busca una exageración evidente.",
+                "explanation": "Esperar un millón de años es una exageración."
+            }, {
+                "id": 5,
+                "level": 1,
+                "figure": "Onomatopeya",
+                "prompt": "¿Qué figura literaria aparece en “¡Pum! cayó el libro”?",
+                "options": ["Onomatopeya", "Personificación", "Comparación"],
+                "answer": "Onomatopeya",
+                "hint": "Busca una palabra que imite un sonido.",
+                "explanation": "“Pum” imita el sonido de una caída o golpe."
+            }, {
+                "id": 6,
+                "level": 1,
+                "figure": "Aliteración",
+                "prompt": "¿Qué figura literaria aparece en “Mi mamá me mima mucho”?",
+                "options": ["Aliteración", "Hipérbole", "Metáfora"],
+                "answer": "Aliteración",
+                "hint": "Fíjate si se repite mucho un mismo sonido.",
+                "explanation": "Se repite varias veces el sonido /m/."
+            }, {
+                "id": 7,
+                "level": 1,
+                "figure": "Comparación",
+                "prompt": "¿Cuál oración contiene una comparación?",
+                "options": ["Corre como un rayo.", "El sol me saludó.", "¡Ring, ring! sonó el teléfono."],
+                "answer": "Corre como un rayo.",
+                "hint": "Busca una comparación explícita.",
+                "explanation": "“Como un rayo” compara la velocidad."
+            }, {
+                "id": 8,
+                "level": 1,
+                "figure": "Metáfora",
+                "prompt": "¿Cuál oración contiene una metáfora?",
+                "options": ["Su cabello es oro.", "Su cabello brilla como oro.", "El cabello baila con el viento."],
+                "answer": "Su cabello es oro.",
+                "hint": "No debe aparecer “como”.",
+                "explanation": "El cabello se identifica directamente con el oro."
+            }, {
+                "id": 9,
+                "level": 1,
+                "figure": "Personificación",
+                "prompt": "¿Cuál oración contiene personificación?",
+                "options": ["Las hojas bailaban felices.", "Las hojas eran verdes.", "Las hojas caían como plumas."],
+                "answer": "Las hojas bailaban felices.",
+                "hint": "¿Las hojas pueden bailar de verdad?",
+                "explanation": "Se atribuye a las hojas una acción humana."
+            }, {
+                "id": 10,
+                "level": 1,
+                "figure": "Hipérbole",
+                "prompt": "¿Cuál oración contiene una hipérbole?",
+                "options": ["Tengo tanta hambre que comería una montaña.", "Tengo hambre.", "Como pan con queso."],
+                "answer": "Tengo tanta hambre que comería una montaña.",
+                "hint": "Busca una exageración imposible o muy grande.",
+                "explanation": "Comer una montaña exagera el hambre."
+            }, {
+                "id": 11,
+                "level": 1,
+                "figure": "Onomatopeya",
+                "prompt": "¿Cuál palabra es una onomatopeya?",
+                "options": ["Miau", "Gato", "Peludo"],
+                "answer": "Miau",
+                "hint": "Piensa en un sonido de animal.",
+                "explanation": "“Miau” imita el sonido del gato."
+            }, {
+                "id": 12,
+                "level": 1,
+                "figure": "Aliteración",
+                "prompt": "¿Cuál frase usa repetición de sonidos?",
+                "options": ["Paco pica poca papa.", "El perro duerme.", "La luna parece queso."],
+                "answer": "Paco pica poca papa.",
+                "hint": "Escucha mentalmente el sonido inicial.",
+                "explanation": "Se repite el sonido /p/."
+            }, {
+                "id": 13,
+                "level": 1,
+                "figure": "Comparación",
+                "prompt": "Completa: “La nieve es blanca _ el algodón”.",
+                "options": ["como", "porque", "aunque"],
+                "answer": "como",
+                "hint": "¿Qué palabra suele introducir una comparación?",
+                "explanation": "“Como” establece la comparación."
+            }, {
+                "id": 14,
+                "level": 1,
+                "figure": "Metáfora",
+                "prompt": "¿Cuál opción es una metáfora?",
+                "options": ["La luna es un farol.", "La luna parece un farol.", "La luna ilumina."],
+                "answer": "La luna es un farol.",
+                "hint": "Busca una identificación directa.",
+                "explanation": "La luna se presenta como un farol."
+            }, {
+                "id": 15,
+                "level": 1,
+                "figure": "Personificación",
+                "prompt": "“La ciudad nunca duerme” es un ejemplo de…",
+                "options": ["Personificación", "Hipérbole", "Onomatopeya"],
+                "answer": "Personificación",
+                "hint": "Dormir es una acción de seres vivos.",
+                "explanation": "Se atribuye a la ciudad la capacidad de dormir."
+            }, {
+                "id": 16,
+                "level": 1,
+                "figure": "Hipérbole",
+                "prompt": "“Lloré un río entero” es un ejemplo de…",
+                "options": ["Hipérbole", "Comparación", "Aliteración"],
+                "answer": "Hipérbole",
+                "hint": "¿Es literalmente posible llorar un río?",
+                "explanation": "Es una exageración para expresar mucho llanto."
+            }, {
+                "id": 17,
+                "level": 1,
+                "figure": "Onomatopeya",
+                "prompt": "“Tic-tac, tic-tac” representa…",
+                "options": ["El sonido de un reloj", "Una comparación", "Una metáfora"],
+                "answer": "El sonido de un reloj",
+                "hint": "Piensa qué objeto hace ese sonido.",
+                "explanation": "Imita el sonido repetitivo de un reloj."
+            }, {
+                "id": 18,
+                "level": 1,
+                "figure": "Aliteración",
+                "prompt": "“Susi susurra suavemente” repite principalmente el sonido…",
+                "options": ["s", "m", "t"],
+                "answer": "s",
+                "hint": "Mira las letras iniciales repetidas.",
+                "explanation": "Se repite el sonido /s/."
+            }, {
+                "id": 19,
+                "level": 1,
+                "figure": "Comparación",
+                "prompt": "“Fuerte como un roble” significa que alguien…",
+                "options": ["es muy fuerte", "es un árbol", "hace ruido"],
+                "answer": "es muy fuerte",
+                "hint": "La comparación ayuda a destacar una cualidad.",
+                "explanation": "El roble se usa para representar fortaleza."
+            }, {
+                "id": 20,
+                "level": 1,
+                "figure": "Metáfora",
+                "prompt": "En “El tiempo es oro”, ¿qué se quiere decir?",
+                "options": ["El tiempo es valioso.", "El tiempo es amarillo.", "El tiempo se puede comprar."],
+                "answer": "El tiempo es valioso.",
+                "hint": "Piensa en la cualidad del oro.",
+                "explanation": "La metáfora destaca que el tiempo tiene gran valor."
+            }, {
+                "id": 21,
+                "level": 1,
+                "figure": "Personificación",
+                "prompt": "En “La luna me miraba”, ¿qué acción humana aparece?",
+                "options": ["mirar", "brillar", "subir"],
+                "answer": "mirar",
+                "hint": "Busca la acción que realiza una persona.",
+                "explanation": "A la luna se le atribuye la acción de mirar."
+            }, {
+                "id": 22,
+                "level": 1,
+                "figure": "Hipérbole",
+                "prompt": "“Tengo toneladas de tareas” quiere decir…",
+                "options": ["Tengo muchísimas tareas.", "Mis tareas pesan toneladas.", "Tengo una sola tarea."],
+                "answer": "Tengo muchísimas tareas.",
+                "hint": "No lo interpretes literalmente.",
+                "explanation": "“Toneladas” exagera la cantidad de tareas."
+            }, {
+                "id": 23,
+                "level": 1,
+                "figure": "Onomatopeya",
+                "prompt": "¿Qué sonido corresponde a una puerta que golpea fuerte al cerrarse?",
+                "options": ["¡Bang!", "Azul", "Suave"],
+                "answer": "¡Bang!",
+                "hint": "Elige la palabra que imita un ruido.",
+                "explanation": "“Bang” representa un golpe fuerte."
+            }, {
+                "id": 24,
+                "level": 1,
+                "figure": "Aliteración",
+                "prompt": "¿Qué efecto produce principalmente la aliteración?",
+                "options": ["Repetir sonidos para dar ritmo.", "Exagerar una idea.", "Comparar dos cosas."],
+                "answer": "Repetir sonidos para dar ritmo.",
+                "hint": "Piensa en lo que ocurre con los sonidos.",
+                "explanation": "La aliteración repite sonidos semejantes."
+            }, {
+                "id": 25,
+                "level": 1,
+                "figure": "Comparación",
+                "prompt": "“Sus manos eran frías como el hielo” compara las manos con…",
+                "options": ["el hielo", "el fuego", "la nieve que habla"],
+                "answer": "el hielo",
+                "hint": "Busca el elemento después de “como”.",
+                "explanation": "La comparación relaciona el frío de las manos con el hielo."
+            }, {
+                "id": 26,
+                "level": 2,
+                "figure": "Comparación",
+                "prompt": "¿Cuál opción es comparación y no metáfora?",
+                "options": ["Tus mejillas son como rosas.", "Tus mejillas son rosas.", "Las rosas ríen."],
+                "answer": "Tus mejillas son como rosas.",
+                "hint": "Busca “como”.",
+                "explanation": "La presencia de “como” hace explícita la comparación."
+            }, {
+                "id": 27,
+                "level": 2,
+                "figure": "Metáfora",
+                "prompt": "¿Cuál opción es metáfora y no comparación?",
+                "options": ["La sala era un horno.", "La sala estaba caliente como un horno.", "El horno rugía."],
+                "answer": "La sala era un horno.",
+                "hint": "La metáfora identifica una cosa con otra.",
+                "explanation": "Se dice directamente que la sala “era un horno”."
+            }, {
+                "id": 28,
+                "level": 2,
+                "figure": "Personificación",
+                "prompt": "¿Cuál oración personifica un objeto?",
+                "options": ["El reloj me apuraba.", "El reloj marca las ocho.", "El reloj suena tic-tac."],
+                "answer": "El reloj me apuraba.",
+                "hint": "Busca una intención o acción humana.",
+                "explanation": "Se presenta al reloj como si pudiera apurar a alguien."
+            }, {
+                "id": 29,
+                "level": 2,
+                "figure": "Hipérbole",
+                "prompt": "¿Cuál oración exagera para expresar cansancio?",
+                "options": ["Estoy muerto de cansancio.", "Estoy un poco cansado.", "Caminé como mi hermano."],
+                "answer": "Estoy muerto de cansancio.",
+                "hint": "Busca una expresión extrema.",
+                "explanation": "“Muerto de cansancio” exagera el agotamiento."
+            }, {
+                "id": 30,
+                "level": 2,
+                "figure": "Onomatopeya",
+                "prompt": "¿Cuál oración contiene una onomatopeya?",
+                "options": ["El globo hizo ¡paf!", "El globo era rojo.", "El globo voló como un pájaro."],
+                "answer": "El globo hizo ¡paf!",
+                "hint": "Busca la imitación del sonido.",
+                "explanation": "“Paf” representa el sonido del globo."
+            }, {
+                "id": 31,
+                "level": 2,
+                "figure": "Aliteración",
+                "prompt": "¿Cuál frase presenta aliteración?",
+                "options": ["Rápido ruedan las ruedas rojas.", "La rueda gira.", "La rueda es como un círculo."],
+                "answer": "Rápido ruedan las ruedas rojas.",
+                "hint": "Busca repetición de un sonido consonante.",
+                "explanation": "Se repite con fuerza el sonido /r/."
+            }, {
+                "id": 32,
+                "level": 2,
+                "figure": "Comparación",
+                "prompt": "¿Qué palabra ayuda a reconocer una comparación?",
+                "options": ["como", "es", "¡pum!"],
+                "answer": "como",
+                "hint": "Piensa en una comparación explícita.",
+                "explanation": "“Como” es un conector frecuente en comparaciones."
+            }, {
+                "id": 33,
+                "level": 2,
+                "figure": "Metáfora",
+                "prompt": "“Mi hermano es un oso al despertar” quiere decir que…",
+                "options": ["está malhumorado o brusco", "es literalmente un oso", "duerme en un bosque"],
+                "answer": "está malhumorado o brusco",
+                "hint": "Interpreta la cualidad asociada al oso.",
+                "explanation": "La metáfora atribuye cualidades del oso al hermano."
+            }, {
+                "id": 34,
+                "level": 2,
+                "figure": "Personificación",
+                "prompt": "“El computador se negó a funcionar” es personificación porque…",
+                "options": ["se le atribuye una decisión humana", "hace un sonido", "se compara con una persona"],
+                "answer": "se le atribuye una decisión humana",
+                "hint": "¿Un computador puede decidir negarse?",
+                "explanation": "Se atribuye voluntad humana al computador."
+            }, {
+                "id": 35,
+                "level": 2,
+                "figure": "Hipérbole",
+                "prompt": "¿Cuál NO es hipérbole?",
+                "options": ["Tengo cien años de sueño.", "Corrí más rápido que la luz.", "El perro duerme en su cama."],
+                "answer": "El perro duerme en su cama.",
+                "hint": "Busca la oración que no exagera.",
+                "explanation": "Esa oración describe un hecho normal."
+            }, {
+                "id": 36,
+                "level": 2,
+                "figure": "Onomatopeya",
+                "prompt": "¿Qué opción imita el sonido del agua que cae?",
+                "options": ["plin-plin", "gigante", "brillante"],
+                "answer": "plin-plin",
+                "hint": "Elige una palabra sonora.",
+                "explanation": "“Plin-plin” puede representar pequeñas gotas."
+            }, {
+                "id": 37,
+                "level": 2,
+                "figure": "Aliteración",
+                "prompt": "¿Cuál opción NO usa aliteración de manera evidente?",
+                "options": ["Tres tristes tigres.", "Pepe pela papas.", "El gato duerme tranquilo."],
+                "answer": "El gato duerme tranquilo.",
+                "hint": "Busca la que no repite sonidos de forma marcada.",
+                "explanation": "No hay una repetición sonora destacada."
+            }, {
+                "id": 38,
+                "level": 2,
+                "figure": "Comparación",
+                "prompt": "“Su voz era suave como terciopelo”. ¿Qué cualidad se compara?",
+                "options": ["la suavidad", "el color", "el tamaño"],
+                "answer": "la suavidad",
+                "hint": "Observa el adjetivo antes de “como”.",
+                "explanation": "Se compara la suavidad de la voz con la del terciopelo."
+            }, {
+                "id": 39,
+                "level": 2,
+                "figure": "Metáfora",
+                "prompt": "“Esa noticia fue un balde de agua fría”. ¿Qué expresa?",
+                "options": ["una sorpresa desagradable", "que alguien se mojó", "que hacía calor"],
+                "answer": "una sorpresa desagradable",
+                "hint": "No lo interpretes literalmente.",
+                "explanation": "La expresión representa un impacto o decepción inesperada."
+            }, {
+                "id": 40,
+                "level": 2,
+                "figure": "Personificación",
+                "prompt": "¿En cuál oración el sol tiene una conducta humana?",
+                "options": ["El sol sonrió sobre el campo.", "El sol salió temprano.", "El sol parecía una moneda."],
+                "answer": "El sol sonrió sobre el campo.",
+                "hint": "Sonreír es una acción humana.",
+                "explanation": "Se atribuye al sol la capacidad de sonreír."
+            }, {
+                "id": 41,
+                "level": 2,
+                "figure": "Hipérbole",
+                "prompt": "“Mi mochila pesa una tonelada” busca expresar que…",
+                "options": ["la mochila está muy pesada", "pesa exactamente 1000 kg", "la mochila está vacía"],
+                "answer": "la mochila está muy pesada",
+                "hint": "La cifra es una exageración.",
+                "explanation": "La hipérbole intensifica la idea del peso."
+            }, {
+                "id": 42,
+                "level": 2,
+                "figure": "Onomatopeya",
+                "prompt": "En “El teléfono hizo ring-ring”, la palabra “ring-ring” sirve para…",
+                "options": ["imitar un sonido", "comparar dos objetos", "exagerar una acción"],
+                "answer": "imitar un sonido",
+                "hint": "Piensa en lo que escuchas al sonar un teléfono.",
+                "explanation": "Es una representación escrita del sonido."
+            }, {
+                "id": 43,
+                "level": 2,
+                "figure": "Aliteración",
+                "prompt": "En “Lola lee libros largos”, ¿qué sonido se repite?",
+                "options": ["l", "p", "s"],
+                "answer": "l",
+                "hint": "Mira el inicio de varias palabras.",
+                "explanation": "Se repite el sonido /l/."
+            }, {
+                "id": 44,
+                "level": 2,
+                "figure": "Comparación",
+                "prompt": "¿Cuál frase compara usando “parece”?",
+                "options": ["El lago parece un espejo.", "El lago es un espejo.", "El lago bosteza."],
+                "answer": "El lago parece un espejo.",
+                "hint": "“Parece” también puede marcar semejanza.",
+                "explanation": "La frase establece una semejanza entre lago y espejo."
+            }, {
+                "id": 45,
+                "level": 2,
+                "figure": "Metáfora",
+                "prompt": "¿Cuál frase transforma una idea abstracta en una imagen?",
+                "options": ["La tristeza es una nube gris.", "La tristeza se siente mal.", "La tristeza llega como lluvia."],
+                "answer": "La tristeza es una nube gris.",
+                "hint": "Busca una identificación directa.",
+                "explanation": "Se representa la tristeza mediante la imagen de una nube gris."
+            }, {
+                "id": 46,
+                "level": 2,
+                "figure": "Personificación",
+                "prompt": "¿Cuál oración da voz a la naturaleza?",
+                "options": ["Los árboles susurraban secretos.", "Los árboles eran altos.", "Los árboles crecían rápido."],
+                "answer": "Los árboles susurraban secretos.",
+                "hint": "Busca una acción propia de personas.",
+                "explanation": "Susurrar secretos es una acción humana."
+            }, {
+                "id": 47,
+                "level": 2,
+                "figure": "Hipérbole",
+                "prompt": "¿Cuál exageración expresa mucha risa?",
+                "options": ["Me morí de la risa.", "Me reí un poco.", "Mi risa suena ja-ja."],
+                "answer": "Me morí de la risa.",
+                "hint": "Busca la expresión imposible.",
+                "explanation": "“Morirse de risa” exagera la intensidad de la risa."
+            }, {
+                "id": 48,
+                "level": 2,
+                "figure": "Onomatopeya",
+                "prompt": "¿Cuál ejemplo podría aparecer en un cómic para representar una explosión?",
+                "options": ["¡BOOM!", "silencio", "enorme"],
+                "answer": "¡BOOM!",
+                "hint": "Piensa en palabras que representan ruidos.",
+                "explanation": "“Boom” imita el sonido de una explosión."
+            }, {
+                "id": 49,
+                "level": 2,
+                "figure": "Aliteración",
+                "prompt": "¿Por qué “Pablito clavó un clavito” puede sonar rítmico?",
+                "options": ["Porque repite sonidos semejantes.", "Porque exagera.", "Porque compara."],
+                "answer": "Porque repite sonidos semejantes.",
+                "hint": "Fíjate en la repetición de consonantes.",
+                "explanation": "La repetición sonora produce ritmo."
+            }, {
+                "id": 50,
+                "level": 2,
+                "figure": "Metáfora",
+                "prompt": "“La vida es un viaje” se entiende mejor como…",
+                "options": ["la vida tiene etapas y caminos", "todos viven viajando en autobús", "la vida dura un día"],
+                "answer": "la vida tiene etapas y caminos",
+                "hint": "Busca el sentido figurado.",
+                "explanation": "El viaje representa las etapas y experiencias de la vida."
+            }, {
+                "id": 51,
+                "level": 3,
+                "figure": "Comparación",
+                "prompt": "Lee: “Martina entró al escenario. Su corazón latía como un tambor.” ¿Qué figura aparece?",
+                "options": ["Comparación", "Metáfora", "Personificación"],
+                "answer": "Comparación",
+                "hint": "Observa la palabra “como”.",
+                "explanation": "Se compara el latido del corazón con un tambor."
+            }, {
+                "id": 52,
+                "level": 3,
+                "figure": "Metáfora",
+                "prompt": "Lee: “La biblioteca era un océano de historias”. ¿Qué figura aparece?",
+                "options": ["Metáfora", "Hipérbole", "Onomatopeya"],
+                "answer": "Metáfora",
+                "hint": "La biblioteca no es literalmente un océano.",
+                "explanation": "Se identifica la biblioteca con un océano para destacar la abundancia de historias."
+            }, {
+                "id": 53,
+                "level": 3,
+                "figure": "Personificación",
+                "prompt": "Lee: “La lluvia golpeaba impaciente los vidrios”. ¿Qué figura aparece?",
+                "options": ["Personificación", "Comparación", "Aliteración"],
+                "answer": "Personificación",
+                "hint": "“Impaciente” es una cualidad humana.",
+                "explanation": "A la lluvia se le atribuye impaciencia."
+            }, {
+                "id": 54,
+                "level": 3,
+                "figure": "Hipérbole",
+                "prompt": "Lee: “Después de educación física, podía beberme todo el mar”. ¿Qué figura aparece?",
+                "options": ["Hipérbole", "Metáfora", "Onomatopeya"],
+                "answer": "Hipérbole",
+                "hint": "Busca una exageración imposible.",
+                "explanation": "Beberse todo el mar exagera la sed."
+            }, {
+                "id": 55,
+                "level": 3,
+                "figure": "Onomatopeya",
+                "prompt": "Lee: “De pronto, ¡crac!, se quebró la rama”. ¿Qué figura aparece?",
+                "options": ["Onomatopeya", "Personificación", "Comparación"],
+                "answer": "Onomatopeya",
+                "hint": "La palabra intenta reproducir un sonido.",
+                "explanation": "“Crac” imita el sonido de una rama al quebrarse."
+            }, {
+                "id": 56,
+                "level": 3,
+                "figure": "Aliteración",
+                "prompt": "Lee: “Bajo la brisa, bailan bellas banderas”. ¿Qué recurso destaca?",
+                "options": ["Aliteración", "Metáfora", "Hipérbole"],
+                "answer": "Aliteración",
+                "hint": "Busca un sonido que se repite mucho.",
+                "explanation": "Se repite el sonido /b/."
+            }, {
+                "id": 57,
+                "level": 3,
+                "figure": "Comparación",
+                "prompt": "¿Qué imagen transmite “La arena quemaba como brasas”?",
+                "options": ["La arena estaba muy caliente.", "La arena estaba mojada.", "La arena hablaba."],
+                "answer": "La arena estaba muy caliente.",
+                "hint": "Relaciona la arena con las brasas.",
+                "explanation": "La comparación destaca la alta temperatura."
+            }, {
+                "id": 58,
+                "level": 3,
+                "figure": "Metáfora",
+                "prompt": "“Las nubes son algodón en el cielo”. ¿Qué característica se destaca?",
+                "options": ["su aspecto suave y esponjoso", "su sonido fuerte", "su sabor dulce"],
+                "answer": "su aspecto suave y esponjoso",
+                "hint": "Piensa en cómo se ve el algodón.",
+                "explanation": "La metáfora relaciona las nubes con el algodón por su apariencia."
+            }, {
+                "id": 59,
+                "level": 3,
+                "figure": "Personificación",
+                "prompt": "En “La puerta protestó con un largo crujido”, ¿qué palabra crea personificación?",
+                "options": ["protestó", "puerta", "largo"],
+                "answer": "protestó",
+                "hint": "¿Qué acción supone intención humana?",
+                "explanation": "“Protestó” atribuye una conducta humana a la puerta."
+            }, {
+                "id": 60,
+                "level": 3,
+                "figure": "Hipérbole",
+                "prompt": "¿Qué intención tiene “Había una fila infinita”?",
+                "options": ["Expresar que la fila era muy larga.", "Decir que nunca terminaba literalmente.", "Comparar la fila con una cuerda."],
+                "answer": "Expresar que la fila era muy larga.",
+                "hint": "“Infinita” intensifica una idea.",
+                "explanation": "La hipérbole exagera la longitud de la fila."
+            }, {
+                "id": 61,
+                "level": 3,
+                "figure": "Onomatopeya",
+                "prompt": "En un relato aparece “toc-toc”. ¿Qué situación representa mejor?",
+                "options": ["Alguien golpea una puerta.", "Alguien corre.", "Alguien mira el cielo."],
+                "answer": "Alguien golpea una puerta.",
+                "hint": "Imagina qué sonido produce “toc-toc”.",
+                "explanation": "Representa el sonido de golpear una puerta."
+            }, {
+                "id": 62,
+                "level": 3,
+                "figure": "Aliteración",
+                "prompt": "¿Qué efecto puede tener “El suave susurro de las hojas secas”?",
+                "options": ["Crear una sensación sonora y rítmica.", "Indicar una cantidad enorme.", "Convertir una hoja en persona."],
+                "answer": "Crear una sensación sonora y rítmica.",
+                "hint": "Observa la repetición del sonido /s/.",
+                "explanation": "La repetición de /s/ refuerza la sensación de susurro."
+            }, {
+                "id": 63,
+                "level": 3,
+                "figure": "Comparación",
+                "prompt": "Lee: “El corredor salió veloz, como una flecha”. ¿Qué se compara?",
+                "options": ["el corredor con una flecha", "la pista con una flecha", "el público con el corredor"],
+                "answer": "el corredor con una flecha",
+                "hint": "Busca qué elemento aparece antes de “como”.",
+                "explanation": "La velocidad del corredor se compara con la de una flecha."
+            }, {
+                "id": 64,
+                "level": 3,
+                "figure": "Metáfora",
+                "prompt": "Lee: “Sus palabras fueron cuchillos”. ¿Qué sugiere?",
+                "options": ["Sus palabras hicieron daño.", "Habló sobre cuchillos.", "Sus palabras eran metálicas."],
+                "answer": "Sus palabras hicieron daño.",
+                "hint": "Piensa en el efecto de un cuchillo.",
+                "explanation": "La metáfora representa palabras hirientes."
+            }, {
+                "id": 65,
+                "level": 3,
+                "figure": "Personificación",
+                "prompt": "Lee: “La mañana despertó lentamente”. ¿Qué se personifica?",
+                "options": ["la mañana", "el estudiante", "el reloj"],
+                "answer": "la mañana",
+                "hint": "¿Qué cosa no humana realiza una acción de ser vivo?",
+                "explanation": "Se atribuye a la mañana la acción de despertar."
+            }, {
+                "id": 66,
+                "level": 3,
+                "figure": "Hipérbole",
+                "prompt": "Lee: “Había montañas de ropa en su pieza”. ¿Qué significa?",
+                "options": ["Había muchísima ropa.", "Había cerros reales.", "La pieza estaba en una montaña."],
+                "answer": "Había muchísima ropa.",
+                "hint": "“Montañas” exagera una cantidad.",
+                "explanation": "Se exagera la cantidad de ropa."
+            }, {
+                "id": 67,
+                "level": 3,
+                "figure": "Onomatopeya",
+                "prompt": "¿Cuál expresión sería más adecuada para representar un trueno en un cuento?",
+                "options": ["¡Rrrrum!", "como algodón", "mil años"],
+                "answer": "¡Rrrrum!",
+                "hint": "Elige una imitación sonora.",
+                "explanation": "La expresión reproduce de forma aproximada el ruido del trueno."
+            }, {
+                "id": 68,
+                "level": 3,
+                "figure": "Aliteración",
+                "prompt": "¿Qué sonido domina en “Rueda rápido el río entre las rocas”?",
+                "options": ["r", "m", "f"],
+                "answer": "r",
+                "hint": "Pronuncia la frase mentalmente.",
+                "explanation": "El sonido /r/ aparece repetidamente."
+            }, {
+                "id": 69,
+                "level": 3,
+                "figure": "Comparación",
+                "prompt": "¿Cuál versión usa comparación?",
+                "options": ["El cielo estaba rojo como fuego.", "El cielo era fuego.", "El cielo gritaba rojo."],
+                "answer": "El cielo estaba rojo como fuego.",
+                "hint": "Busca un conector de semejanza.",
+                "explanation": "“Como” marca una comparación explícita."
+            }, {
+                "id": 70,
+                "level": 3,
+                "figure": "Metáfora",
+                "prompt": "¿Cuál versión usa metáfora?",
+                "options": ["El aula era una colmena.", "El aula sonaba como una colmena.", "Las abejas estaban en el aula."],
+                "answer": "El aula era una colmena.",
+                "hint": "Busca una identificación directa.",
+                "explanation": "Se representa el aula como una colmena por su actividad o ruido."
+            }, {
+                "id": 71,
+                "level": 3,
+                "figure": "Personificación",
+                "prompt": "¿Qué figura hay en “El miedo tocó a mi puerta”?",
+                "options": ["Personificación", "Onomatopeya", "Comparación"],
+                "answer": "Personificación",
+                "hint": "El miedo es una emoción, no una persona.",
+                "explanation": "Se da al miedo la acción humana de tocar una puerta."
+            }, {
+                "id": 72,
+                "level": 3,
+                "figure": "Hipérbole",
+                "prompt": "¿Qué figura hay en “Te llamé mil veces”?",
+                "options": ["Hipérbole", "Aliteración", "Metáfora"],
+                "answer": "Hipérbole",
+                "hint": "¿Realmente fueron exactamente mil llamadas?",
+                "explanation": "La cantidad exagerada intensifica la idea de insistencia."
+            }, {
+                "id": 73,
+                "level": 3,
+                "figure": "Onomatopeya",
+                "prompt": "¿Qué figura aparece en “La abeja pasó: bzzz, bzzz”?",
+                "options": ["Onomatopeya", "Comparación", "Hipérbole"],
+                "answer": "Onomatopeya",
+                "hint": "La expresión representa un ruido.",
+                "explanation": "“Bzzz” imita el zumbido de la abeja."
+            }, {
+                "id": 74,
+                "level": 3,
+                "figure": "Aliteración",
+                "prompt": "¿Qué figura aparece en “Clara clava clavos claros”?",
+                "options": ["Aliteración", "Personificación", "Metáfora"],
+                "answer": "Aliteración",
+                "hint": "Busca sonidos repetidos.",
+                "explanation": "Se repite la combinación sonora /cl/."
+            }, {
+                "id": 75,
+                "level": 3,
+                "figure": "Metáfora",
+                "prompt": "En “Mi abuelo es un libro abierto”, se quiere decir que…",
+                "options": ["comparte fácilmente sus historias y pensamientos", "está hecho de papel", "siempre lleva un libro"],
+                "answer": "comparte fácilmente sus historias y pensamientos",
+                "hint": "Busca el sentido figurado de “libro abierto”.",
+                "explanation": "La metáfora representa a alguien transparente o dispuesto a contar sus experiencias."
+            }, {
+                "id": 76,
+                "level": 4,
+                "figure": "Personificación",
+                "prompt": "Lee: “El viejo farol vigiló la calle toda la noche”. ¿Qué recurso construye la imagen principal?",
+                "options": ["Personificación", "Comparación", "Onomatopeya"],
+                "answer": "Personificación",
+                "hint": "“Vigilar” supone una intención.",
+                "explanation": "El farol es presentado como un vigilante."
+            }, {
+                "id": 77,
+                "level": 4,
+                "figure": "Metáfora",
+                "prompt": "Lee: “Al comenzar la prueba, un nudo apareció en mi garganta”. ¿Qué expresa la metáfora?",
+                "options": ["Nervios o angustia.", "Que comió una cuerda.", "Que tenía dolor por gritar."],
+                "answer": "Nervios o angustia.",
+                "hint": "Piensa en una emoción que dificulta hablar.",
+                "explanation": "El “nudo” representa una sensación de nervios o angustia."
+            }, {
+                "id": 78,
+                "level": 4,
+                "figure": "Comparación",
+                "prompt": "Lee: “La noticia corrió por el curso como fuego entre hojas secas”. ¿Qué idea refuerza la comparación?",
+                "options": ["Que la noticia se difundió muy rápido.", "Que hubo un incendio.", "Que las hojas estaban mojadas."],
+                "answer": "Que la noticia se difundió muy rápido.",
+                "hint": "Relaciona la rapidez del fuego con la noticia.",
+                "explanation": "La comparación destaca la velocidad con que se propagó."
+            }, {
+                "id": 79,
+                "level": 4,
+                "figure": "Hipérbole",
+                "prompt": "Lee: “El recreo duró un segundo y la clase, cien años”. ¿Qué busca expresar?",
+                "options": ["Que el recreo pareció muy corto y la clase muy larga.", "Que los tiempos fueron exactos.", "Que el reloj estaba roto."],
+                "answer": "Que el recreo pareció muy corto y la clase muy larga.",
+                "hint": "Las cantidades están exageradas.",
+                "explanation": "La hipérbole expresa una percepción subjetiva del tiempo."
+            }, {
+                "id": 80,
+                "level": 4,
+                "figure": "Aliteración",
+                "prompt": "Lee: “Sopla suave sobre sauces silenciosos”. ¿Qué efecto apoya la repetición de /s/?",
+                "options": ["Una sensación de suavidad y susurro.", "Una explosión fuerte.", "Una exageración de tamaño."],
+                "answer": "Una sensación de suavidad y susurro.",
+                "hint": "Relaciona el sonido /s/ con la escena.",
+                "explanation": "La repetición sonora contribuye a una atmósfera suave."
+            }, {
+                "id": 81,
+                "level": 4,
+                "figure": "Onomatopeya",
+                "prompt": "En un cómic aparece: “¡Zas! La pelota golpeó la pared”. ¿Qué función cumple “¡Zas!”?",
+                "options": ["Representar el sonido del golpe.", "Comparar la pelota con la pared.", "Dar una cualidad humana a la pelota."],
+                "answer": "Representar el sonido del golpe.",
+                "hint": "Es una palabra creada para sonar como la acción.",
+                "explanation": "La onomatopeya reproduce de forma expresiva el sonido."
+            }, {
+                "id": 82,
+                "level": 4,
+                "figure": "Metáfora",
+                "prompt": "“Después de estudiar, mi cabeza era una olla hirviendo”. ¿Qué comunica mejor?",
+                "options": ["Tenía muchas ideas o estaba saturado mentalmente.", "Tenía fiebre necesariamente.", "Estaba cocinando."],
+                "answer": "Tenía muchas ideas o estaba saturado mentalmente.",
+                "hint": "Interpreta la imagen de una olla hirviendo.",
+                "explanation": "La metáfora representa una mente muy activa o sobrecargada."
+            }, {
+                "id": 83,
+                "level": 4,
+                "figure": "Personificación",
+                "prompt": "“Los libros me llamaban desde la repisa”. ¿Qué efecto produce?",
+                "options": ["Hace parecer que los libros invitan a leer.", "Indica que los libros tienen teléfono.", "Explica que alguien gritó."],
+                "answer": "Hace parecer que los libros invitan a leer.",
+                "hint": "Los libros no pueden llamar literalmente.",
+                "explanation": "La personificación vuelve atractiva y viva la escena."
+            }, {
+                "id": 84,
+                "level": 4,
+                "figure": "Comparación",
+                "prompt": "¿Cuál oración presenta la comparación más clara?",
+                "options": ["Su recuerdo quedó pegado como una estampilla.", "Su recuerdo fue una estampilla.", "El recuerdo gritó."],
+                "answer": "Su recuerdo quedó pegado como una estampilla.",
+                "hint": "Busca una semejanza explícita.",
+                "explanation": "“Como una estampilla” establece la comparación."
+            }, {
+                "id": 85,
+                "level": 4,
+                "figure": "Hipérbole",
+                "prompt": "“Ese secreto pesa una tonelada”. ¿Qué se exagera?",
+                "options": ["La importancia o carga emocional del secreto.", "El peso físico de una caja.", "La cantidad de personas."],
+                "answer": "La importancia o carga emocional del secreto.",
+                "hint": "El secreto no tiene peso físico real.",
+                "explanation": "La hipérbole intensifica la sensación de carga emocional."
+            }, {
+                "id": 86,
+                "level": 4,
+                "figure": "Aliteración",
+                "prompt": "¿Qué recurso predomina en “Brillan breves brasas bajo la bruma”?",
+                "options": ["Aliteración", "Hipérbole", "Personificación"],
+                "answer": "Aliteración",
+                "hint": "Fíjate en la repetición de /br/ y /b/.",
+                "explanation": "La repetición de sonidos consonantes produce musicalidad."
+            }, {
+                "id": 87,
+                "level": 4,
+                "figure": "Onomatopeya",
+                "prompt": "Un autor escribe “ñam, ñam” mientras un personaje come. ¿Para qué lo usa?",
+                "options": ["Para imitar el sonido de comer con gusto.", "Para mostrar una comparación.", "Para indicar que hay poca comida."],
+                "answer": "Para imitar el sonido de comer con gusto.",
+                "hint": "Piensa en sonidos asociados a comer.",
+                "explanation": "La expresión funciona como onomatopeya."
+            }, {
+                "id": 88,
+                "level": 4,
+                "figure": "Metáfora",
+                "prompt": "Lee: “La esperanza fue una luz en medio del problema”. ¿Qué representa la luz?",
+                "options": ["Una posibilidad positiva o guía.", "Una lámpara real.", "El sol del mediodía."],
+                "answer": "Una posibilidad positiva o guía.",
+                "hint": "La luz suele asociarse a orientación o esperanza.",
+                "explanation": "La metáfora presenta la esperanza como algo que ilumina."
+            }, {
+                "id": 89,
+                "level": 4,
+                "figure": "Personificación",
+                "prompt": "Lee: “La tormenta golpeó furiosa la ciudad”. ¿Qué palabra aporta personificación?",
+                "options": ["furiosa", "ciudad", "tormenta"],
+                "answer": "furiosa",
+                "hint": "La furia es una emoción.",
+                "explanation": "Se atribuye a la tormenta una emoción humana."
+            }, {
+                "id": 90,
+                "level": 4,
+                "figure": "Comparación",
+                "prompt": "Lee: “Sus ideas se ordenaron como piezas de un rompecabezas”. ¿Qué se destaca?",
+                "options": ["Que las ideas comenzaron a encajar entre sí.", "Que estaba armando un juego.", "Que las ideas tenían colores."],
+                "answer": "Que las ideas comenzaron a encajar entre sí.",
+                "hint": "Piensa en cómo encajan las piezas.",
+                "explanation": "La comparación muestra organización y relación entre ideas."
+            }, {
+                "id": 91,
+                "level": 4,
+                "figure": "Hipérbole",
+                "prompt": "¿Cuál interpretación es correcta para “La sala explotó en aplausos”?",
+                "options": ["Todos aplaudieron con mucha fuerza y entusiasmo.", "La sala explotó de verdad.", "Se rompieron las ventanas."],
+                "answer": "Todos aplaudieron con mucha fuerza y entusiasmo.",
+                "hint": "Es una expresión intensa, no literal.",
+                "explanation": "Se exagera la fuerza colectiva de los aplausos."
+            }, {
+                "id": 92,
+                "level": 4,
+                "figure": "Metáfora",
+                "prompt": "“El examen fue una montaña”. ¿Qué puede significar?",
+                "options": ["Fue difícil de superar.", "Se realizó en un cerro.", "La hoja era triangular."],
+                "answer": "Fue difícil de superar.",
+                "hint": "Una montaña puede representar un desafío.",
+                "explanation": "La metáfora presenta el examen como un obstáculo grande."
+            }, {
+                "id": 93,
+                "level": 4,
+                "figure": "Personificación",
+                "prompt": "“La noche abrazó el pueblo”. ¿Qué imagen crea?",
+                "options": ["La oscuridad cubrió el pueblo.", "Una persona gigante llegó.", "El pueblo abrazó a alguien."],
+                "answer": "La oscuridad cubrió el pueblo.",
+                "hint": "Abrazar es una acción humana.",
+                "explanation": "La personificación representa la llegada envolvente de la noche."
+            }, {
+                "id": 94,
+                "level": 4,
+                "figure": "Onomatopeya",
+                "prompt": "¿Qué opción combina correctamente acción y onomatopeya?",
+                "options": ["La campana sonó: ¡din-don!", "La campana era como plata.", "La campana estaba cansada."],
+                "answer": "La campana sonó: ¡din-don!",
+                "hint": "Busca la imitación sonora.",
+                "explanation": "“Din-don” representa el sonido de la campana."
+            }, {
+                "id": 95,
+                "level": 4,
+                "figure": "Aliteración",
+                "prompt": "¿Qué frase usa el sonido para reforzar una sensación de rapidez?",
+                "options": ["Rápido rueda y corre el tren.", "El tren es un dragón.", "El tren va como una flecha."],
+                "answer": "Rápido rueda y corre el tren.",
+                "hint": "Busca repetición de sonidos que dé ritmo.",
+                "explanation": "La repetición de /r/ aporta dinamismo."
+            }, {
+                "id": 96,
+                "level": 4,
+                "figure": "Comparación",
+                "prompt": "Lee: “La sala quedó silenciosa como una biblioteca vacía”. ¿Qué se compara?",
+                "options": ["El silencio de la sala con el de una biblioteca vacía.", "La sala con los libros.", "Los estudiantes con bibliotecarios."],
+                "answer": "El silencio de la sala con el de una biblioteca vacía.",
+                "hint": "Observa qué cualidad comparten.",
+                "explanation": "Se compara el grado de silencio."
+            }, {
+                "id": 97,
+                "level": 4,
+                "figure": "Hipérbole",
+                "prompt": "Lee: “Me aprendí el poema después de repetirlo un millón de veces”. ¿Qué expresa?",
+                "options": ["Que lo repitió muchísimas veces.", "Que contó exactamente un millón.", "Que nunca lo estudió."],
+                "answer": "Que lo repitió muchísimas veces.",
+                "hint": "La cantidad extrema no es literal.",
+                "explanation": "La hipérbole destaca la gran cantidad de repeticiones."
+            }, {
+                "id": 98,
+                "level": 4,
+                "figure": "Metáfora",
+                "prompt": "En el verso “Tus consejos son brújulas”, ¿qué significa?",
+                "options": ["Tus consejos me orientan.", "Tus consejos tienen una aguja.", "Tus consejos indican el norte geográfico."],
+                "answer": "Tus consejos me orientan.",
+                "hint": "¿Para qué sirve una brújula?",
+                "explanation": "La metáfora presenta los consejos como una guía."
+            }, {
+                "id": 99,
+                "level": 4,
+                "figure": "Personificación",
+                "prompt": "Lee: “El silencio entró a la sala y se sentó entre nosotros”. ¿Qué logra esta personificación?",
+                "options": ["Hace que el silencio parezca una presencia real.", "Explica dónde había una silla.", "Compara el silencio con música."],
+                "answer": "Hace que el silencio parezca una presencia real.",
+                "hint": "El silencio no puede entrar ni sentarse literalmente.",
+                "explanation": "La personificación vuelve concreta una idea abstracta."
+            }, {
+                "id": 100,
+                "level": 4,
+                "figure": "Mixto",
+                "prompt": "Lee: “El viento susurraba y las hojas respondían: shhh, shhh”. ¿Qué dos recursos aparecen?",
+                "options": ["Personificación y onomatopeya", "Comparación e hipérbole", "Metáfora y aliteración"],
+                "answer": "Personificación y onomatopeya",
+                "hint": "Hay una acción humana y también una imitación de sonido.",
+                "explanation": "“Susurraba/respondían” personifica y “shhh” imita un sonido."
+            }];
+            let questions = JSON.parse(localStorage.getItem('fl_questions') || 'null') || DEFAULT_QUESTIONS;
+            const figures = [["Comparación", "Relaciona dos elementos mediante palabras como “como”, “parece” o “semejante a”.", "Tus ojos brillan como estrellas."], ["Metáfora", "Identifica una cosa con otra para crear una imagen, sin usar “como”.", "Tus ojos son estrellas."], ["Personificación", "Da acciones, emociones o cualidades humanas a animales, objetos o elementos de la naturaleza.", "El viento cantaba."], ["Hipérbole", "Exagera una idea para darle mayor intensidad.", "Te esperé un millón de años."], ["Onomatopeya", "Imita sonidos mediante palabras.", "¡Pum! / tic-tac / miau"], ["Aliteración", "Repite sonidos parecidos para crear ritmo o musicalidad.", "Mi mamá me mima mucho."]];
+            const shopItems = [{
+                id: "glasses",
+                name: "Lentes divertidos",
+                emoji: "🤓",
+                price: 15
+            }, {
+                id: "hat",
+                name: "Sombrero elegante",
+                emoji: "🎩",
+                price: 20
+            }, {
+                id: "shoes",
+                name: "Zapatillas",
+                emoji: "👟",
+                price: 25
+            }, {
+                id: "shirt",
+                name: "Polera",
+                emoji: "👕",
+                price: 30
+            }, {
+                id: "bag",
+                name: "Mochila",
+                emoji: "🎒",
+                price: 35
+            }];
+            const special = {
+                25: "hat",
+                50: "glasses",
+                75: "shirt",
+                100: "bag"
+            };
+            let currentUser = null
+              , currentQ = 0
+              , attempts = 0
+              , hintUsed = false
+              , editIndex = null;
+
+            function users() {
+                return JSON.parse(localStorage.getItem('fl_users') || '{}')
+            }
+            function saveUsers(u) {
+                localStorage.setItem('fl_users', JSON.stringify(u))
+            }
+            function defaultUser(name) {
+                return {
+                    name,
+                    done: 0,
+                    correct: 0,
+                    coins: Number.MAX_VALUE,
+                    reviewed: false,
+                    answers: {},
+                    unlocked: [],
+                    equipped: [],
+                    last: new Date().toISOString()
+                }
+            }
+            function saveCurrent() {
+                if (!currentUser)
+                    return;
+                let u = users();
+                currentUser.last = new Date().toISOString();
+                u[currentUser.name] = currentUser;
+                saveUsers(u);
+                updateTop()
+            }
+            function showSection(id) {
+                ["login", "home", "review", "game", "shop", "closet", "report", "teacherLogin", "teacher", "editQ"].forEach(x => document.getElementById(x).classList.add("hidden"));
+                document.getElementById(id).classList.remove("hidden")
+            }
+            function startUser() {
+                let name = document.getElementById("username").value.trim();
+                if (!name)
+                    return alert("Escribe un nombre de usuario.");
+                let u = users();
+                currentUser = u[name] || defaultUser(name);
+                saveCurrent();
+                goHome()
+            }
+            function logout() {
+                saveCurrent();
+                currentUser = null;
+                document.getElementById("username").value = "";
+                showSection("login");
+                updateTop()
+            }
+            function goHome() {
+                if (!currentUser) {
+                    showSection("login");
+                    return
+                }
+                saveCurrent();
+                showSection("home");
+                renderHome()
+            }
+            function renderHome() {
+                document.getElementById("hello").textContent = "Hola, " + currentUser.name + " 👋";
+                document.getElementById("doneStat").textContent = currentUser.done;
+                document.getElementById("correctStat").textContent = currentUser.correct;
+                let p = currentUser.done ? Math.round(currentUser.correct / currentUser.done * 100) : 0;
+                document.getElementById("percentStat").textContent = p + "%";
+                document.getElementById("coinsStat").textContent = currentUser.coins;
+                document.getElementById("progressBar").style.width = currentUser.done + "%";
+                updateMascot("homeMascot");
+                updateTop()
+            }
+            function updateTop() {
+                document.getElementById("coinPill").textContent = "🪙 " + (currentUser ? currentUser.coins : 0)
+            }
+            function openReview() {
+                showSection("review");
+                let out = figures.map(f => `<div class="notice"><h3>${f[0]}</h3><p>${f[1]}</p><b>Ejemplo:</b> ${f[2]}</div>`).join("");
+                document.getElementById("reviewCards").innerHTML = out
+            }
+            function finishReview() {
+                if (!currentUser.reviewed) {
+                    currentUser.reviewed = true;
+                    alert("📖 ¡Repaso completado! Ya puedes comenzar tu aventura.")
+                }
+                saveCurrent();
+                goHome()
+            }
+            function continueGame() {
+                currentQ = Math.min(currentUser.done, 99);
+                showSection("game");
+                renderQuestion()
+            }
+            function renderQuestion() {
+                let q = questions[currentQ];
+                attempts = 0;
+                hintUsed = false;
+                document.getElementById("feedback").classList.add("hidden");
+                document.getElementById("nextBtn").classList.add("hidden");
+                document.getElementById("qMeta").textContent = `Pregunta ${q.id} de 100 · Nivel ${q.level} · ${q.figure}`;
+                document.getElementById("qPrompt").textContent = q.prompt;
+                let opts = [...q.options];
+                opts.sort( () => Math.random() - .5);
+                document.getElementById("options").innerHTML = opts.map(o => `<button class="option" onclick='answer(${JSON.stringify(o)})'>${o}</button>`).join("")
+            }
+            function answer(choice) {
+                let q = questions[currentQ]
+                  , fb = document.getElementById("feedback");
+                if (currentUser.answers[q.id]?.final)
+                    return;
+                attempts++;
+                let correct = choice === q.answer;
+                if (correct) {
+                    let gain = 1;
+                    currentUser.coins += gain;
+                    currentUser.correct++;
+                    currentUser.done = Math.max(currentUser.done, q.id);
+                    currentUser.answers[q.id] = {
+                        final: true,
+                        correct: true,
+                        attempts,
+                        hintUsed,
+                        choice
+                    };
+                    fb.innerHTML = `✅ ¡Muy bien! +1 moneda.<br>${q.explanation}`;
+                    if (special[q.id] && !currentUser.unlocked.includes(special[q.id])) {
+                        currentUser.unlocked.push(special[q.id]);
+                        fb.innerHTML += `<br><b>🎁 ¡Desbloqueaste un premio especial!</b>`
+                    }
+                    fb.classList.remove("hidden");
+                    document.getElementById("nextBtn").classList.remove("hidden");
+                    saveCurrent()
+                } else {
+                    currentUser.coins = Math.max(0, currentUser.coins - 1);
+                    saveCurrent();
+                    fb.innerHTML = attempts === 1 ? "🟠 Respuesta incorrecta. Pierdes 1 moneda. Inténtalo nuevamente. Puedes usar la pista." : "🟠 Respuesta incorrecta. Pierdes 1 moneda. Observa con atención y vuelve a intentarlo.";
+                    fb.classList.remove("hidden")
+                }
+            }
+            function showHint() {
+                let q = questions[currentQ];
+                hintUsed = true;
+                let fb = document.getElementById("feedback");
+                fb.textContent = "💡 Pista: " + q.hint;
+                fb.classList.remove("hidden")
+            }
+            function nextQuestion() {
+                if (currentQ >= 99) {
+                    saveCurrent();
+                    alert("🏆 ¡Misión completada! Llegaste a la pregunta 100.");
+                    openReport();
+                    return
+                }
+                currentQ++;
+                renderQuestion()
+            }
+            function openShop() {
+                showSection("shop");
+                renderShop()
+            }
+            function renderShop() {
+                document.getElementById("shopCoins").textContent = currentUser.coins;
+                document.getElementById("shopGrid").innerHTML = shopItems.map(it => {
+                    let own = currentUser.unlocked.includes(it.id);
+                    return `<div class="shopitem"><div class="emoji">${it.emoji}</div><b>${it.name}</b><p>${own ? "✅ DESBLOQUEADO" : "🪙 " + it.price}</p><button class="${own ? "secondary" : "gold"}" onclick="buyItem('${it.id}')">${own ? "Ya lo tienes" : "Comprar"}</button></div>`
+                }
+                ).join("")
+            }
+            function buyItem(id) {
+                let it = shopItems.find(x => x.id === id);
+                if (!it)
+                    return;
+                if (currentUser.unlocked.includes(id))
+                    return;
+                if (currentUser.coins < it.price)
+                    return alert("Aún no tienes suficientes monedas.");
+                currentUser.coins -= it.price;
+                currentUser.unlocked.push(id);
+                saveCurrent();
+                renderShop()
+            }
+            function openCloset() {
+                showSection("closet");
+                renderCloset()
+            }
+            function renderCloset() {
+                let owned = shopItems.filter(i => currentUser.unlocked.includes(i.id));
+                document.getElementById("closetGrid").innerHTML = owned.length ? owned.map(it => {
+                    let on = currentUser.equipped.includes(it.id);
+                    return `<div class="shopitem"><div class="emoji">${it.emoji}</div><b>${it.name}</b><p>${on ? "Puesto" : "Guardado"}</p><button class="secondary" onclick="toggleEquip('${it.id}')">${on ? "Quitar" : "Poner"}</button></div>`
+                }
+                ).join("") : "<div class='notice'>Todavía no tienes accesorios. Visita la tienda.</div>";
+                updateMascot("closetMascot")
+            }
+            function toggleEquip(id) {
+                let a = currentUser.equipped
+                  , ix = a.indexOf(id);
+                if (ix >= 0)
+                    a.splice(ix, 1);
+                else
+                    a.push(id);
+                saveCurrent();
+                renderCloset()
+            }
+            function updateMascot(elid) {
+                let el = document.getElementById(elid);
+                if (!el || !currentUser)
+                    return;
+                shopItems.forEach(it => {
+                    let n = el.querySelector("." + it.id);
+                    if (n)
+                        n.classList.toggle("show", currentUser.equipped.includes(it.id))
+                }
+                )
+            }
+            function openReport() {
+                showSection("report");
+                let pct = currentUser.done ? Math.round(currentUser.correct / currentUser.done * 100) : 0;
+                let by = {};
+                questions.slice(0, currentUser.done).forEach(q => {
+                    if (q.figure === "Mixto")
+                        return;
+                    by[q.figure] = by[q.figure] || {
+                        n: 0,
+                        c: 0
+                    };
+                    by[q.figure].n++;
+                    if (currentUser.answers[q.id]?.correct)
+                        by[q.figure].c++
+                }
+                );
+                let rows = Object.entries(by).map( ([k,v]) => `<tr><td>${k}</td><td>${v.c}/${v.n}</td><td>${v.n ? Math.round(v.c / v.n * 100) : 0}%</td></tr>`).join("");
+                document.getElementById("reportBody").innerHTML = `<div class="notice"><b>Estudiante:</b> ${currentUser.name}<br><b>Curso:</b> 5.º Básico<br><b>Preguntas realizadas:</b> ${currentUser.done}/100<br><b>Correctas:</b> ${currentUser.correct}<br><b>Porcentaje de logro:</b> ${pct}%<br><b>Monedas:</b> ${currentUser.coins}</div><h3>Resultado por figura literaria</h3><table><tr><th>Figura</th><th>Correctas</th><th>Logro</th></tr>${rows}</table><p class="small">Las monedas y accesorios son recompensas motivacionales y no modifican el porcentaje académico.</p>`
+            }
+            function printReport() {
+                window.print()
+            }
+            function showTeacherLogin() {
+                showSection("teacherLogin")
+            }
+            function getPin() {
+                return localStorage.getItem("fl_pin") || "2026"
+            }
+            function enterTeacher() {
+                if (document.getElementById("teacherPin").value !== getPin())
+                    return alert("PIN incorrecto.");
+                showSection("teacher");
+                renderBank()
+            }
+            function teacherTab(tab, btn) {
+                document.querySelectorAll(".tab").forEach(x => x.classList.remove("active"));
+                btn.classList.add("active");
+                ["teacherBank", "teacherStudents", "teacherSettings"].forEach(x => document.getElementById(x).classList.add("hidden"));
+                if (tab === "bank") {
+                    document.getElementById("teacherBank").classList.remove("hidden");
+                    renderBank()
+                }
+                if (tab === "students") {
+                    document.getElementById("teacherStudents").classList.remove("hidden");
+                    renderStudents()
+                }
+                if (tab === "settings")
+                    document.getElementById("teacherSettings").classList.remove("hidden")
+            }
+            function renderBank() {
+                document.getElementById("bankRows").innerHTML = questions.map( (q, i) => `<tr><td>${q.id}</td><td>${q.level}</td><td>${q.figure}</td><td>${q.prompt}</td><td>${q.answer}</td><td><button class="secondary" onclick="editQuestion(${i})">Editar</button></td></tr>`).join("")
+            }
+            function editQuestion(i) {
+                editIndex = i;
+                let q = questions[i];
+                showSection("editQ");
+                document.getElementById("editId").textContent = q.id;
+                document.getElementById("editPrompt").value = q.prompt;
+                document.getElementById("editA").value = q.options[0] || "";
+                document.getElementById("editB").value = q.options[1] || "";
+                document.getElementById("editC").value = q.options[2] || "";
+                document.getElementById("editAnswer").value = q.answer;
+                document.getElementById("editHint").value = q.hint;
+                document.getElementById("editExplanation").value = q.explanation
+            }
+            function saveEdit() {
+                let q = questions[editIndex]
+                  , opts = [document.getElementById("editA").value.trim(), document.getElementById("editB").value.trim(), document.getElementById("editC").value.trim()].filter(Boolean)
+                  , ans = document.getElementById("editAnswer").value.trim();
+                if (!opts.includes(ans))
+                    return alert("La respuesta correcta debe coincidir exactamente con una alternativa.");
+                q.prompt = document.getElementById("editPrompt").value.trim();
+                q.options = opts;
+                q.answer = ans;
+                q.hint = document.getElementById("editHint").value.trim();
+                q.explanation = document.getElementById("editExplanation").value.trim();
+                localStorage.setItem("fl_questions", JSON.stringify(questions));
+                showSection("teacher");
+                renderBank()
+            }
+            function renderStudents() {
+                let u = Object.values(users());
+                document.getElementById("teacherStudents").innerHTML = u.length ? `<div class="tablewrap"><table><tr><th>Estudiante</th><th>Progreso</th><th>Correctas</th><th>Logro</th><th>Monedas</th><th>Última actividad</th></tr>${u.map(s => `<tr><td>${s.name}</td><td>${s.done}/100</td><td>${s.correct}</td><td>${s.done ? Math.round(s.correct / s.done * 100) : 0}%</td><td>${s.coins}</td><td>${new Date(s.last).toLocaleString()}</td></tr>`).join("")}</table></div>` : `<div class='notice'>Aún no hay estudiantes registrados en este computador.</div>`
+            }
+            function changePin() {
+                let p = document.getElementById("newPin").value.trim();
+                if (p.length < 4)
+                    return alert("Usa un PIN de al menos 4 caracteres.");
+                localStorage.setItem("fl_pin", p);
+                document.getElementById("newPin").value = "";
+                alert("PIN actualizado.")
+            }
+            showSection("login");
+        </script>
+    </body>
+</html>
